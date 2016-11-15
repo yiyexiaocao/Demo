@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="error">
+    <Properties>
+        <Property name="APP_NAME">demo</Property><!-- 项目名称 -->
+        <Property name="LOG_HOME">/data/dubbo/logs/${APP_NAME}</Property><!-- 日志输出路径 -->
+        <Property name="LOG_PREFIX">${APP_NAME}</Property>
+        <Property name="LOG_CHARSET">UTF-8</Property>
+        <Property name="LOG_DIR">${LOG_HOME}/%d{yyyyMMdd}</Property>
+        <Property name="LOG_MSG">- |[%X{requestId}]|[%d{yyyyMMdd HH:mm:ss.SSS}]|[%level]|[${hostName}]|[%thread]|[%logger{36}]||| %msg |%n</Property>
+        <Property name="MAX_FILE_SIZE">50MB</Property>
+        <Property name="LOG_ROOT_LEVEL">DEBUG</Property><!-- 总体日志输出级别 -->
+    </Properties>
+    <Loggers>
+        <Root level="${LOG_ROOT_LEVEL}">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="FILE_ALL"/>
+            <AppenderRef ref="FILE_ERROR"/>
+        </Root>
+        <Logger name="org.springframework" level="error" additivity="false">
+            <AppenderRef ref="FILE_ERROR"/>
+            <AppenderRef ref="FILE_ALL"/>
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        <Logger name="org.apache.zookeeper" level="error" additivity="false">
+            <AppenderRef ref="FILE_ERROR"/>
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        <Logger name="org.apache.commons" level="error" additivity="false">
+            <AppenderRef ref="FILE_ERROR"/>
+            <AppenderRef ref="FILE_ALL"/>
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+    </Loggers>
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout charset="${LOG_CHARSET}" pattern="${LOG_MSG}"/>
+        </Console>
+        <RollingRandomAccessFile name="FILE_ALL" fileName="${LOG_HOME}/all_${LOG_PREFIX}.log"
+                     filePattern="${LOG_HOME}/all_${LOG_PREFIX}.log.%-d{yyyy-MM-dd-HH}_%i">
+            <PatternLayout charset="${LOG_CHARSET}" pattern="${LOG_MSG}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
+                <TimeBasedTriggeringPolicy interval="2" modulate="true"/>
+            </Policies>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="FILE_ERROR" fileName="${LOG_HOME}/err_${LOG_PREFIX}.log"
+                     filePattern="${LOG_HOME}/err_${LOG_PREFIX}.log.%-d{yyyy-MM-dd}_%i">
+            <ThresholdFilter level="error" onMatch="ACCEPT"/>
+            <PatternLayout charset="${LOG_CHARSET}" pattern="${LOG_MSG}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingRandomAccessFile>
+    </Appenders>
+</Configuration>
