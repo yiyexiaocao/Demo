@@ -37,10 +37,18 @@
         <profile>
             <id>dev</id>
             <properties>
-                <ecej.ecejcommons.email.mail.smtp.host>smtp.163.com</ecej.ecejcommons.email.mail.smtp.host>
-                <ecej.ecejcommons.email.addresser>geliang_gnaileg@163.com</ecej.ecejcommons.email.addresser>
-                <ecej.ecejcommons.email.password>5213208o??</ecej.ecejcommons.email.password>
-                <ecej.ecejcommons.email.serverPort>25</ecej.ecejcommons.email.serverPort>
+                <gl.email.mail.smtp.host>smtp.163.com</gl.email.mail.smtp.host>
+                <gl.email.addresser>geliang_gnaileg@163.com</gl.email.addresser>
+                <gl.password>5213208o??</gl.password>
+                <gl.serverPort>25</gl.serverPort>
+
+                <!-- MQ-->
+                <gl.mq.url>failover:(tcp://127.0.0.1:61616)</gl.mq.url>
+                <gl.mq.factor.username></gl.mq.factor.username>
+                <gl.mq.factor.password></gl.mq.factor.password>
+                <gl.mq.pool.maxConnections>5</gl.mq.pool.maxConnections>
+                <gl.mq.pool.activeSessionPerConnection>2</gl.mq.pool.activeSessionPerConnection>
+                <gl.mq.pool.expirationCheckMillis>3000</gl.mq.pool.expirationCheckMillis>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
