@@ -18,15 +18,13 @@ import org.slf4j.LoggerFactory;
  * 消息消费者中使用的多线程消息监听服务
  *
  * @author QIANG
- * @data 2016年6月23日下午12:23:46
  */
 public abstract class ThreadMessageListener implements MessageListener {
 
-    public static final Logger LOG                        = LoggerFactory
-        .getLogger(ThreadMessageListener.class);
+    public static final Logger LOG = LoggerFactory.getLogger(ThreadMessageListener.class);
 
     // 默认线程池数量
-    public final static int    DEFAULT_HANDLE_THREAD_POOL = 100;
+    public final static int DEFAULT_HANDLE_THREAD_POOL = 100;
 
     // 提供消息回调调用接口
     private MessageHandler messageHandler;
@@ -40,13 +38,13 @@ public abstract class ThreadMessageListener implements MessageListener {
     public ThreadMessageListener(MessageHandler messageHandler, ThreadPoolExecutor executor) {
         this.messageHandler = messageHandler;
         executorService = null == executor ? newFixedThreadPool(DEFAULT_HANDLE_THREAD_POOL)
-            : executor;
+                : executor;
     }
 
     public static ThreadPoolExecutor newFixedThreadPool(int nThreads) {
 
         return new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<Runnable>());
+                new LinkedBlockingQueue<Runnable>());
     }
 
     /**
@@ -62,9 +60,9 @@ public abstract class ThreadMessageListener implements MessageListener {
 
                 try {
                     LOG.info("接收到消息体 ,线程名称:[{}],时间:[{}],线程池:[{}],队列情况:[{}]",
-                        Thread.currentThread().getName(),
-                        DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-                        executorService.getPoolSize(), executorService.getQueue().size());
+                            Thread.currentThread().getName(),
+                            DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+                            executorService.getPoolSize(), executorService.getQueue().size());
                     messageHandler.handle(message);
                 } catch (Exception e) {
                     LOG.error(" run messageHandler error,msg:{}", e.getMessage());

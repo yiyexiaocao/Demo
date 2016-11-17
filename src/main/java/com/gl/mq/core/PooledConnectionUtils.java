@@ -17,16 +17,10 @@ public class PooledConnectionUtils {
 	private static PooledConnectionFactory poolFactory;
 
 	static {
-		String url = PropertyConfigure.getContextProperty("ecej.mq.url");
-		// String userName =
-		// SourceUtils.getSimpleMessage("ecej.mq.factor.username");
-		// String password =
-		// SourceUtils.getSimpleMessage("ecej.mq.factor.password");
-		String maxConnections = PropertyConfigure.getContextProperty("ecej.mq.pool.maxConnections", "100");
-		String activeSessionPerConnection = PropertyConfigure
-				.getContextProperty("ecej.mq.pool.activeSessionPerConnection", "200");
-		String expirationCheckMillis = PropertyConfigure.getContextProperty("ecej.mq.pool.expirationCheckMillis",
-				"10000");
+		String url = PropertyConfigure.getContextProperty("gl.mq.url");
+		String maxConnections = PropertyConfigure.getContextProperty("gl.mq.pool.maxConnections", "100");
+		String activeSessionPerConnection = PropertyConfigure.getContextProperty("gl.mq.pool.activeSessionPerConnection", "200");
+		String expirationCheckMillis = PropertyConfigure.getContextProperty("gl.mq.pool.expirationCheckMillis","10000");
 		if (StringUtils.isEmpty(url)) {
 			LOG.warn("Wraning: mq.factor.url is empty!!");
 		}
@@ -37,8 +31,7 @@ public class PooledConnectionUtils {
 		poolFactory.setMaximumActiveSessionPerConnection(Integer.valueOf(activeSessionPerConnection));
 		// 后台对象清理时，休眠时间超过了10000毫秒的对象为过期
 		poolFactory.setTimeBetweenExpirationCheckMillis(Integer.valueOf(expirationCheckMillis));
-		LOG.info(" PooledConnectionFactory create success,maxConnections:[{}],activeSessionPerConnection:[{}]",
-				maxConnections, activeSessionPerConnection);
+		LOG.info(" PooledConnectionFactory create success,maxConnections:[{}],activeSessionPerConnection:[{}]",maxConnections, activeSessionPerConnection);
 
 	}
 
