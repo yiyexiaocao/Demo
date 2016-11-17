@@ -25,7 +25,6 @@ public class ActiveMqUtil {
 
         //构件ConnectionFactory
         connectionFactory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER,ActiveMQConnection.DEFAULT_PASSWORD,"tcp://localhost:61616");
-
         try {
             //得到连接对象
             connection = connectionFactory.createConnection();
@@ -38,8 +37,11 @@ public class ActiveMqUtil {
             //得到消息的发送者
             messageProducer = session.createProducer(destination);
             messageProducer.setDeliveryMode(DeliveryMode.PERSISTENT);
-            senderMessage(session,messageProducer,message);
+            for (int i=0;i<20;i++){
+                senderMessage(session,messageProducer,message);
+            }
             session.commit();
+            session.close();
         } catch (JMSException e) {
             e.printStackTrace();
         }finally {
